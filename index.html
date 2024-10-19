@@ -28,7 +28,7 @@
                         <span>Tiempos de atención variables y 1 unidad de servicio</span>
                     </div>
                 </div>
-                <div class="colum2" >
+                <div class="colum2">
                     <div class="item" data-index="4" onclick="selectItem(4)">
                         <span>Tiempos de atención variables y más de 1 unidad de servicio</span>
                     </div>
@@ -47,25 +47,33 @@
                     <img src="flecha.png" alt="Flecha" class="icono" onclick="regresarMenu()">
                     M/M/1
                 </h2>
-                
+
                 <div class="itemEntrada">
                     <label for="lambda">Tasa de llegada (λ):</label>
-                    <input type="number" id="lambda" required class="controlFormulario">
+                    <input type="number" id="tasaLlegada" required class="controlFormulario">
                 </div>
                 <div class="itemEntrada">
                     <label for="mu">Tasa de servicio (μ):</label>
-                    <input type="number" id="mu" required class="controlFormulario">
+                    <input type="number" id="tasaServicio" required class="controlFormulario">
                 </div>
-                <div class="itemEntrada">
+                <div class="itemEntrada" id="entradaSer" data-situacion="1">
                     <label for="servidores" id="servidoresLabel">Número de canales:</label>
-                    <input type="number" id="servidores" min="1" class="controlFormulario">
+                    <input type="number" id="canales" min="1" class="controlFormulario" disabled>
                 </div>
-                <div class="itemEntrada">
+                <div class="itemEntrada" id="entradaDesviacion" data-situacion="2">
+                    <label for="servidores" id="servidoresLabel">Desviación estándar:</label>
+                    <input type="number" id="desviacion" class="controlFormulario" disabled>
+                </div>
+                <div class="itemEntrada" id="entradaPoblacion" data-situacion="5">
                     <label for="poblacion" id="poblacionLabel">Tamaño de la población:</label>
-                    <input type="number" id="poblacion" class="controlFormulario">
+                    <input type="number" id="poblacion" class="controlFormulario" disabled>
+                </div>
+                <div class="itemEntrada" id="entradaPoblacion" >
+                    <label for="poblacion" id="poblacionLabel">Numero de Clientes (Pn):</label>
+                    <input type="number" id="clientesCantidad" class="controlFormulario" >
                 </div>
 
-                <button id="btnCalcular" class="boton" disabled>Calcular</button>
+                <button id="btnCalcular" class="boton" >Calcular</button>
 
             </div>
             <div class="barraSeparadora">
@@ -73,7 +81,10 @@
             </div>
             <div class="resultado">
                 <h2 class="titulo">Resultados:</h2>
-                <div class="columnaResultados">
+                <div class="columnaMensaje" id="resultadoMensaje">
+                    <span>Da click en Calcular para ver los resultados</span>
+                </div>
+                <div class="columnaResultados" id="resultadoContenido" >
                     <div class="columna1">
 
                         <div class="itemResul">

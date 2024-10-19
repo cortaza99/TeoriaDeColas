@@ -3,11 +3,41 @@
     margin: 1em 5%;
     border: 1px solid #D9D9D9;
     border-radius: 5px;
+    position: relative; 
 }
 
 .menu {
     display: flex;
     flex-direction: column;
+    background-image: url('cola.png'); 
+    background-repeat: no-repeat; 
+    background-position: right top; 
+    background-size: auto; 
+    padding: 1em; 
+    position: relative; 
+}
+
+.menu::before {
+    content: ''; 
+    background-image: url('estrellas.png');
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    position: absolute;
+    left: 0; 
+    bottom: 0; 
+    width: 50px; 
+    height: 50px; 
+}
+.menu::after {
+    content: ''; 
+    background-image: url('avion.png'); 
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    position: absolute;
+    left: 55px; 
+    bottom: 0; 
+    width: 100px; 
+    height: 100px; 
 }
 
 .situaciones {
@@ -30,6 +60,7 @@
     text-align: center;
     font: inherit;
     border: 1px solid #D9D9D9;
+    background-color: #D9D9D9;
     border-radius: 5px;
     padding: 1em 2%;
     margin: 1em;
@@ -41,7 +72,7 @@
 .item.selected {
     background-color: #3892D3;
     color: white;        
-    font-weight: bold;      
+     
 }
 
 .contenido {
@@ -63,6 +94,12 @@
     height: calc(2em + 1vh);
     border: 1px solid #D9D9D9;
     border-radius: 5px;
+    padding-left: 0.5em;
+}
+.controlFormulario:disabled {
+    background-color: #f3f0f0; 
+    color: #000000; 
+    cursor: not-allowed; 
 }
 
 .titulo {
@@ -86,8 +123,9 @@
     padding: 5%;
 }
 
+
 .columnaResultados {
-    display: flex;
+    display: none; 
     flex-direction: row;
 }
 
@@ -169,4 +207,7 @@
 .icono:hover {
     background-color: lightgray; 
     transition: background-color 0.3s;
+}
+.input-error {
+    border: 1px solid red; 
 }
