@@ -69,10 +69,26 @@
                     <label for="poblacion" id="poblacionLabel">Tamaño de la población:</label>
                     <input type="number" id="poblacion" class="controlFormulario" disabled>
                 </div>
-                <div class="itemEntrada" id="entradaPoblacion" >
-                    <label for="poblacion" id="poblacionLabel">Numero de Clientes (Pn):</label>
-                    <input type="number" id="clientesCantidad" class="controlFormulario" >
+                <div class="itemEntrada" id="entradaPoblacion">
+                    <label for="poblacion" id="poblacionLabel">Número de Clientes (Pn):</label>
+                    <input type="number" id="clientesCantidad" class="controlFormulario">
+                
+                    <div>
+                        <label>
+                            <input type="radio" name="cantidadClientes" value="exactamente" checked>
+                            <span>Exactamente</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="cantidadClientes" value="alMenos">
+                            <span>Al menos</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="cantidadClientes" value="maximo">
+                            <span>Máximo</span>
+                        </label>
+                    </div>
                 </div>
+                
 
                 <button id="btnCalcular" class="boton" >Calcular</button>
                 <div id="mensajeEstabilidad" class="mensaje" style="display: none;">

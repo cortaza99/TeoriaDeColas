@@ -8,10 +8,6 @@ function selectItem(index) {
     const entradaDesviacion = document.getElementById('entradaDesviacion');
     const titulo = document.getElementById('idTitulo');
 
-    if (selectedItem !== null) {
-        items[selectedItem].classList.remove('selected');
-    }
-
 
     if (selectedItem !== index - 1) {
         items[index - 1].classList.add('selected');
@@ -152,6 +148,23 @@ document.getElementById('btnCalcular').addEventListener('click', function () {
     const nClientes = document.getElementById('clientesCantidad');
     const mensajeEstabilidad = document.getElementById('mensajeEstabilidad');
     const btnAceptar = document.getElementById('btnAceptar'); // Botón aceptar
+    const selectedRadioButton = document.querySelector('input[name="cantidadClientes"]:checked');
+
+    // if (selectedItem !== null) {
+    //     items[selectedItem].classList.remove('selected');
+    // }
+    let selectedIndex;
+    if (selectedRadioButton) {
+        const selectedValue = selectedRadioButton.value;
+
+        if (selectedValue === 'exactamente') {
+            selectedIndex = 1;
+        } else if (selectedValue === 'alMenos') {
+            selectedIndex = 2;
+        } else if (selectedValue === 'maximo') {
+            selectedIndex = 3;
+        }
+    }
 
     let valid = true;
     mensajeEstabilidad.style.display = 'none';
@@ -231,7 +244,7 @@ document.getElementById('btnCalcular').addEventListener('click', function () {
             valid = false;
         } else {
             tasaServicio.title = "";
-            const resultados = calcularResultados(tasaLlegada.value, tasaServicio.value, canales.value, poblacion.value, desviacionEstandar.value, nClientes.value);
+            const resultados = calcularResultados(tasaLlegada.value, tasaServicio.value, canales.value, poblacion.value, desviacionEstandar.value, nClientes.value, selectedIndex);
 
             document.getElementById('P0').innerText = resultados.P0.toFixed(2);
             document.getElementById('Lq').innerText = resultados.Lq.toFixed(2);
@@ -270,7 +283,7 @@ function ocultarResultados() {
 }
 
 
-function calcularResultados(tasaLlegada, tasaServicio, canales, poblacion, desviacionEstandar, nClientes) {
+function calcularResultados(tasaLlegada, tasaServicio, canales, poblacion, desviacionEstandar, nClientes, selectedIndex) {
     let P0, Lq, L, Wq, W, Pw, Pn;
 
     tasaLlegada = parseFloat(tasaLlegada);
@@ -279,6 +292,7 @@ function calcularResultados(tasaLlegada, tasaServicio, canales, poblacion, desvi
     poblacion = parseFloat(poblacion);
     desviacionEstandar = parseFloat(desviacionEstandar);
     nClientes = parseFloat(nClientes);
+    selectItems = selectedIndex;
 
 
     switch (selectedItem) {
@@ -289,7 +303,16 @@ function calcularResultados(tasaLlegada, tasaServicio, canales, poblacion, desvi
             Wq = Lq / tasaLlegada;
             W = Wq + (1 / tasaServicio)
             Pw = tasaLlegada / tasaServicio;
-            Pn = P0 * (tasaLlegada / tasaServicio) ** nClientes;
+
+            if (selectItems === 1) {
+                Pn = P0 * (tasaLlegada / tasaServicio) ** nClientes;
+            } else if (selectItems === 2) { //>=  P(n >= )
+                let rho = tasaLlegada / tasaServicio;
+                Pn = Math.pow(rho, nClientes);
+            } else if (selectItems === 3) { // <
+                let rho = tasaLlegada / tasaServicio;
+                Pn = 1 - Math.pow(rho, nClientes);
+            }
 
             break;
 
@@ -307,12 +330,36 @@ function calcularResultados(tasaLlegada, tasaServicio, canales, poblacion, desvi
             W = Wq + (1 / tasaServicio);
             Pw = (P0 * (tasaLlegada / tasaServicio) ** canales) / factorial(canales) * (1 / (1 - rho));
 
-            if (nClientes <= poblacion) {
-                Pn = (((tasaLlegada / tasaServicio) ** nClientes) / factorial(nClientes)) * P0;
-            } else if (nClientes > poblacion) {
-                Pn = (((tasaLlegada / tasaServicio) ** nClientes) / (factorial(canales) * canales ** (nClientes - canales))) * P0;
+            if (selectItems === 1) {
+                // P(n = nClientes)
+                if (nClientes <= canales) {
+                    Pn = (((tasaLlegada / tasaServicio) ** nClientes) / factorial(nClientes)) * P0;
+                } else {
+                    Pn = (((tasaLlegada / tasaServicio) ** nClientes) / (factorial(canales) * (canales ** (nClientes - canales)))) * P0;
+                }
+            } else if (selectItems === 2) {
+                // P(n >= nClientes)
+                let sum = 0;
+                for (let k = 0; k < nClientes; k++) {
+                    if (k < canales) {
+                        sum += (((tasaLlegada / tasaServicio) ** k) / factorial(k)) * P0;
+                    } else {
+                        sum += (((tasaLlegada / tasaServicio) ** k) / (factorial(canales) * (canales ** (k - canales)))) * P0;
+                    }
+                }
+                Pn = 1 - sum;
+            } else if (selectItems === 3) {
+                // P(n < nClientes)
+                let sum = 0;
+                for (let k = 0; k < nClientes; k++) {
+                    if (k < canales) {
+                        sum += (((tasaLlegada / tasaServicio) ** k) / factorial(k)) * P0;
+                    } else {
+                        sum += (((tasaLlegada / tasaServicio) ** k) / (factorial(canales) * (canales ** (k - canales)))) * P0;
+                    }
+                }
+                Pn = sum;
             }
-
             break;
 
         case 2: // Tiempos de atención variables y 1 unidad de servicio
@@ -322,7 +369,17 @@ function calcularResultados(tasaLlegada, tasaServicio, canales, poblacion, desvi
             Wq = Lq / tasaLlegada;
             W = Wq + (1 / tasaServicio);
             Pw = tasaLlegada / tasaServicio;
-            Pn = P0 * ((tasaLlegada / tasaServicio) ** nClientes);
+            
+            if (selectItems === 1) {
+                // P(n = nClientes)
+                Pn = P0 * ((tasaLlegada / tasaServicio) ** nClientes);
+            } else if (selectItems === 2) {
+                // P(n >= nClientes)
+                Pn = ((tasaLlegada / tasaServicio) ** nClientes);
+            } else if (selectItems === 3) {
+                // P(n < nClientes)
+                Pn = 1 - ((tasaLlegada / tasaServicio) ** nClientes);
+            }
             break;
 
         case 3: // Tiempos de atención variables y más de 1 unidad de servicio
@@ -340,30 +397,98 @@ function calcularResultados(tasaLlegada, tasaServicio, canales, poblacion, desvi
             Wq = Lq / tasaLlegada;
             W = Wq + 1 / tasaServicio;
             Pw = Pc;
-            if (nClientes <= c) {
-                Pn = ((c * operacion) ** nClientes / factorial(nClientes)) * P0;
-            } else {
-                Pn = ((c * operacion) ** c / factorial(c)) * (rho ** (nClientes - c)) * P0;
-            }
 
+            if (selectItems === 1) {
+                // P(n = nClientes)
+                if (nClientes <= c) {
+                    Pn = ((c * operacion) ** nClientes / factorial(nClientes)) * P0;
+                } else {
+                    Pn = ((c * operacion) ** c / factorial(c)) * (operacion ** (nClientes - c)) * P0;
+                }
+            } else if (selectItems === 2) {
+                // P(n >= nClientes)
+                let sum = 0;
+                for (let k = 0; k < nClientes; k++) {
+                    if (k <= c) {
+                        sum += ((c * operacion) ** k / factorial(k)) * P0;
+                    } else {
+                        sum += ((c * operacion) ** c / factorial(c)) * (operacion ** (k - c)) * P0;
+                    }
+                }
+                Pn = 1 - sum;
+            } else if (selectItems === 3) {
+                // P(n < nClientes)
+                let sum = 0;
+                for (let k = 0; k < nClientes; k++) {
+                    if (k <= c) {
+                        sum += ((c * operacion) ** k / factorial(k)) * P0;
+                    } else {
+                        sum += ((c * operacion) ** c / factorial(c)) * (operacion ** (k - c)) * P0;
+                    }
+                }
+                Pn = sum;
+            }
+        
 
 
             break;
 
 
-        case 4: // Tiempos de atención uniformes y 1 unidad de servicio y población finita
-            P0 = 1 / (factorial(poblacion) / factorial(poblacion - 0)) * Math.pow((tasaLlegada / tasaServicio), 0);
-            Lq = poblacion - (((tasaLlegada + tasaServicio) / tasaLlegada) * (1 - P0));
-            L = Lq + (1 - P0);
-            Wq = Lq / ((poblacion - L) * tasaLlegada);
-            W = Wq + (1 / tasaServicio);
+            case 4: // Tiempos de atención uniformes y 1 unidad de servicio y población finita
+            const K = poblacion; // K es el tamaño de la población
+            const lambda = tasaLlegada;
+            const mu = tasaServicio;
+            const division = lambda / mu;
+        
+            // Calculamos todas las probabilidades de estado
+            let probEstados = new Array(K + 1).fill(0);
+            let sumaTotal = 0;
+            for (let i = 0; i <= K; i++) {
+                probEstados[i] = factorial(K) / factorial(K - i) * Math.pow(division, i);
+                sumaTotal += probEstados[i];
+            }
+        
+            // Normalizamos las probabilidades
+            for (let i = 0; i <= K; i++) {
+                probEstados[i] /= sumaTotal;
+            }
+        
+            P0 = probEstados[0];
             Pw = 1 - P0;
-            Pn = (factorial(poblacion) / factorial(poblacion - nClientes)) * ((tasaLlegada / tasaServicio) ** nClientes) * P0;
+        
+            // Calculamos L y Lq
+            L = 0;
+            for (let i = 1; i <= K; i++) {
+                L += i * probEstados[i];
+            }
+            Lq = L - (1 - P0);
+        
+            // Calculamos W y Wq
+            W = L / (lambda * (K - L));
+            Wq = W - (1 / mu);
+        
+            if (selectItems === 1) {
+                // P(n = nClientes)
+                Pn = probEstados[nClientes];
+            } else if (selectItems === 2) {
+                // P(n >= nClientes)
+                Pn = 0;
+                for (let i = nClientes; i <= K; i++) {
+                    Pn += probEstados[i];
+                }
+            } else if (selectItems === 3) {
+                // P(n < nClientes)
+                Pn = 0;
+                for (let i = 0; i < nClientes; i++) {
+                    Pn += probEstados[i];
+                }
+            }
             break;
 
         default:
             console.error('selectedItem no válido');
     }
+
     return { P0, Lq, L, Wq, W, Pw, Pn };
 }
 
