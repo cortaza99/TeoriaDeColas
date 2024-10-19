@@ -8,6 +8,9 @@ function selectItem(index) {
     const entradaDesviacion = document.getElementById('entradaDesviacion');
     const titulo = document.getElementById('idTitulo');
 
+    items.forEach((item, i) => {
+        item.classList.remove('selected');
+    });
 
     if (selectedItem !== index - 1) {
         items[index - 1].classList.add('selected');
@@ -150,9 +153,7 @@ document.getElementById('btnCalcular').addEventListener('click', function () {
     const btnAceptar = document.getElementById('btnAceptar'); // Botón aceptar
     const selectedRadioButton = document.querySelector('input[name="cantidadClientes"]:checked');
 
-    // if (selectedItem !== null) {
-    //     items[selectedItem].classList.remove('selected');
-    // }
+    
     let selectedIndex;
     if (selectedRadioButton) {
         const selectedValue = selectedRadioButton.value;
@@ -239,7 +240,7 @@ document.getElementById('btnCalcular').addEventListener('click', function () {
         }
     }
     if (valid) {
-        if (!tasaServicio.value || tasaLlegada.value >= tasaServicio.value) {
+        if (!tasaServicio.value || tasaLlegada.value >= tasaServicio.value && selectedItem ===0) {
             mensajeEstabilidad.style.display = 'flex';
             valid = false;
         } else {
