@@ -1,0 +1,172 @@
+.contPadre {
+    font-family: Arial, sans-serif;
+    margin: 1em 5%;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.situaciones {
+    display: flex;
+    flex-direction: row;
+}
+
+.etiqueta {
+    margin-left: 1em;
+}
+
+.botonIniciar {
+    padding: 1em 2%;
+    height: calc(6rem + 1vh);
+}
+.item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    text-align: center;
+    font: inherit;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    padding: 1em 2%;
+    margin: 1em;
+    max-width: calc(15rem + 1vw);
+    cursor: pointer; 
+    user-select: none;
+}
+
+.item.selected {
+    background-color: #3892D3;
+    color: white;        
+    font-weight: bold;      
+}
+
+.contenido {
+    display: grid;
+    grid-template-columns: 1fr 1% 1fr;
+    flex-direction: column;
+}
+
+.barraSeparadora {
+    width: 1px;
+    height: 80%;
+    background-color: black;
+    align-self: center;
+    justify-self: center;
+}
+
+.controlFormulario {
+    font: inherit;
+    height: calc(2em + 1vh);
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+}
+
+.titulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; 
+    text-align: center;
+}
+
+.camposEntrada {
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+    padding: 5%;
+}
+
+.resultado {
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+}
+
+.columnaResultados {
+    display: flex;
+    flex-direction: row;
+}
+
+.itemEntrada {
+    display: flex;
+    flex-direction: column;
+    margin: 1em 0;
+}
+
+.itemResul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    text-align: center;
+    font: inherit;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    padding: 1em 2%;
+    margin: 1em;
+    max-width: calc(15rem + 1vw);
+
+}
+
+.itemTexto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.itemTexto p {
+    margin: 0;
+    padding-left: 5px;
+}
+
+
+.boton {
+    font-size: inherit;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    overflow: hidden;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+    color: white;
+    font-weight: bold;
+    height: calc(2em + 1vh);
+    background-color: #3892D3;
+}
+
+.boton:hover {
+    box-shadow: 0 4px 16px rgb(148, 148, 148);
+    transition: all 0.2s ease;
+}
+
+.estiloBoton {
+    display: flex;
+    justify-content: right;
+    align-items: end;
+}
+
+
+.icono {
+    width: 24px; 
+    height: auto; 
+    position: absolute; 
+    left: 10px;
+    top: 50%; 
+    transform: translateY(-50%); 
+    cursor: pointer;
+    transition: background-color 0.3s; 
+    padding: 5px; 
+    border-radius: 50%; 
+}
+
+.icono:hover {
+    background-color: lightgray; 
+    transition: background-color 0.3s;
+}
