@@ -1,90 +1,96 @@
-let selectedItem = null; 
+let selectedItem = null;
 
 function selectItem(index) {
     const items = document.querySelectorAll('.item');
-    const btnIniciar = document.getElementById('btnIniciar'); 
-    const entradaSer = document.getElementById('entradaSer'); 
-    const entradaPoblacion = document.getElementById('entradaPoblacion'); 
-    const entradaDesviacion = document.getElementById('entradaDesviacion'); 
+    const btnIniciar = document.getElementById('btnIniciar');
+    const entradaSer = document.getElementById('entradaSer');
+    const entradaPoblacion = document.getElementById('entradaPoblacion');
+    const entradaDesviacion = document.getElementById('entradaDesviacion');
+    const titulo = document.getElementById('idTitulo');
 
     if (selectedItem !== null) {
-        items[selectedItem].classList.remove('selected'); 
+        items[selectedItem].classList.remove('selected');
     }
 
-    
-    if (selectedItem !== index - 1) { 
-        items[index - 1].classList.add('selected');
-        selectedItem = index - 1; 
-        btnIniciar.disabled = false; 
 
-        
+    if (selectedItem !== index - 1) {
+        items[index - 1].classList.add('selected');
+        selectedItem = index - 1;
+        btnIniciar.disabled = false;
+
+
         switch (index) {
             case 1: // Tiempos de atención uniformes y 1 unidad de servicio
-                entradaSer.querySelector('input').value = 1; 
-                entradaSer.querySelector('input').disabled = true; 
-                entradaSer.style.display = 'flex'; 
-                entradaPoblacion.style.display = 'none'; 
-                entradaDesviacion.style.display = 'none'; 
-                entradaDesviacion.querySelector('input').disabled = true; 
+                entradaSer.querySelector('input').value = 1;
+                entradaSer.querySelector('input').disabled = true;
+                entradaSer.style.display = 'flex';
+                entradaPoblacion.style.display = 'none';
+                entradaDesviacion.style.display = 'none';
+                entradaDesviacion.querySelector('input').disabled = true;
+                titulo.innerText = 'M/M/1';
                 break;
 
             case 2: // Tiempos de atención uniformes y más de 1 unidad de servicio
-                entradaSer.querySelector('input').value = 1; 
+                entradaSer.querySelector('input').value = 1;
                 entradaSer.querySelector('input').disabled = false;
-                entradaSer.style.display = 'flex'; 
-                entradaPoblacion.style.display = 'none'; 
-                entradaDesviacion.style.display = 'none'; 
-                entradaDesviacion.querySelector('input').disabled = true; 
+                entradaSer.style.display = 'flex';
+                entradaPoblacion.style.display = 'none';
+                entradaDesviacion.style.display = 'none';
+                entradaDesviacion.querySelector('input').disabled = true;
+                titulo.innerText = 'M/M/c';
                 break;
 
             case 3: // Tiempos de atención variables y 1 unidad de servicio
-                entradaSer.querySelector('input').value = 1; 
-                entradaSer.querySelector('input').disabled = true; 
-                entradaSer.style.display = 'flex'; 
-                entradaPoblacion.style.display = 'none'; 
-                entradaDesviacion.style.display = 'flex'; 
-                entradaDesviacion.querySelector('input').disabled = false; 
+                entradaSer.querySelector('input').value = 1;
+                entradaSer.querySelector('input').disabled = true;
+                entradaSer.style.display = 'flex';
+                entradaPoblacion.style.display = 'none';
+                entradaDesviacion.style.display = 'flex';
+                entradaDesviacion.querySelector('input').disabled = false;
+                titulo.innerText = 'M/G/1';
                 break;
 
             case 4: // Tiempos de atención variables y más de 1 unidad de servicio
-                entradaSer.querySelector('input').value = 1; 
-                entradaSer.querySelector('input').disabled = false; 
-                entradaSer.style.display = 'flex'; 
-                entradaPoblacion.style.display = 'none'; 
-                entradaDesviacion.style.display = 'flex'; 
-                entradaDesviacion.querySelector('input').disabled = false; 
+                entradaSer.querySelector('input').value = 1;
+                entradaSer.querySelector('input').disabled = false;
+                entradaSer.style.display = 'flex';
+                entradaPoblacion.style.display = 'none';
+                entradaDesviacion.style.display = 'flex';
+                entradaDesviacion.querySelector('input').disabled = false;
+                titulo.innerText = 'M/G/c';
                 break;
 
             case 5: // Tiempos de atención uniformes y 1 unidad de servicio y población finita
                 entradaSer.querySelector('input').value = 1;
-                entradaSer.querySelector('input').disabled = true; 
-                entradaSer.style.display = 'flex'; 
-                entradaPoblacion.style.display = 'flex'; 
-                entradaPoblacion.querySelector('input').disabled = false; 
-                entradaDesviacion.style.display = 'none'; 
-                entradaDesviacion.querySelector('input').disabled = true; 
+                entradaSer.querySelector('input').disabled = true;
+                entradaSer.style.display = 'flex';
+                entradaPoblacion.style.display = 'flex';
+                entradaPoblacion.querySelector('input').disabled = false;
+                entradaDesviacion.style.display = 'none';
+                entradaDesviacion.querySelector('input').disabled = true;
+                titulo.innerText = 'M/D/1';
                 break;
 
             default:
-                entradaSer.style.display = 'none'; 
-                entradaPoblacion.style.display = 'none'; 
-                entradaDesviacion.style.display = 'none'; 
-                entradaDesviacion.querySelector('input').disabled = true; 
+                entradaSer.style.display = 'none';
+                entradaPoblacion.style.display = 'none';
+                entradaDesviacion.style.display = 'none';
+                entradaDesviacion.querySelector('input').disabled = true;
                 break;
         }
     } else {
-        selectedItem = null; 
-        btnIniciar.disabled = true; 
-        entradaSer.style.display = 'none'; 
-        entradaPoblacion.style.display = 'none'; 
-        entradaDesviacion.style.display = 'none'; 
-        entradaDesviacion.querySelector('input').disabled = true; 
+        selectedItem = null;
+        btnIniciar.disabled = true;
+        entradaSer.style.display = 'none';
+        entradaPoblacion.style.display = 'none';
+        entradaDesviacion.style.display = 'none';
+        entradaDesviacion.querySelector('input').disabled = true;
     }
 }
 
 document.getElementById('btnIniciar').addEventListener('click', function () {
-    document.querySelector('.menu').style.display = 'none'; 
-    document.querySelector('.contenido').style.display = 'grid'; 
+    document.querySelector('.menu').style.display = 'none';
+    document.querySelector('.contenido').style.display = 'grid';
     if (selectedItem === 0) {
         document.getElementById('canales').value = 1;
     }
@@ -92,8 +98,8 @@ document.getElementById('btnIniciar').addEventListener('click', function () {
 
 
 document.getElementById('btnIniciar').addEventListener('click', function () {
-    document.querySelector('.menu').style.display = 'none'; 
-    document.querySelector('.contenido').style.display = 'grid'; 
+    document.querySelector('.menu').style.display = 'none';
+    document.querySelector('.contenido').style.display = 'grid';
     if (selectedItem === 0) {
         document.getElementById('canales').value = 1;
     }
@@ -118,11 +124,11 @@ function regresarMenu() {
     selectedItem = null;
     const items = document.querySelectorAll('.item');
     items.forEach(item => {
-        item.classList.remove('selected'); 
+        item.classList.remove('selected');
     });
 
     document.querySelector('.contenido').style.display = 'none';
-    document.querySelector('.menu').style.display = 'flex'; 
+    document.querySelector('.menu').style.display = 'flex';
     ocultarResultados();
     document.getElementById('P0').innerHTML = '';
     document.getElementById('Lq').innerHTML = '';
@@ -146,7 +152,7 @@ document.getElementById('btnCalcular').addEventListener('click', function () {
 
     let valid = true;
 
-    if (selectedItem === 0 || selectedItem === 2) { 
+    if (selectedItem === 0 || selectedItem === 2) {
         if (!tasaLlegada.value) {
             tasaLlegada.style.border = "1px solid red";
             valid = false;
@@ -165,7 +171,7 @@ document.getElementById('btnCalcular').addEventListener('click', function () {
             nClientes.style.border = "1px solid red";
             valid = false;
         }
-    } else if (selectedItem === 1 || selectedItem === 3) { 
+    } else if (selectedItem === 1 || selectedItem === 3) {
         if (!tasaLlegada.value) {
             tasaLlegada.style.border = "1px solid red";
             valid = false;
@@ -221,13 +227,13 @@ document.getElementById('btnCalcular').addEventListener('click', function () {
         document.getElementById('Pw').innerText = resultados.Pw.toFixed(2);
         document.getElementById('Pn').innerText = resultados.Pn.toFixed(2);
 
-        mostrarResultados(); 
+        mostrarResultados();
     }
 });
 
 function restaurarBordeOriginal(element) {
     element.addEventListener('input', function () {
-        element.style.border = ""; 
+        element.style.border = "";
     });
 }
 
@@ -239,12 +245,12 @@ restaurarBordeOriginal(document.getElementById('desviacion'));
 restaurarBordeOriginal(document.getElementById('clientesCantidad'));
 
 function mostrarResultados() {
-    document.getElementById('resultadoMensaje').style.display = 'none'; 
-    document.getElementById('resultadoContenido').style.display = 'flex'; 
+    document.getElementById('resultadoMensaje').style.display = 'none';
+    document.getElementById('resultadoContenido').style.display = 'flex';
 }
 function ocultarResultados() {
-    document.getElementById('resultadoMensaje').style.display = 'flex'; 
-    document.getElementById('resultadoContenido').style.display = 'none'; 
+    document.getElementById('resultadoMensaje').style.display = 'flex';
+    document.getElementById('resultadoContenido').style.display = 'none';
 }
 
 
@@ -300,31 +306,34 @@ function calcularResultados(tasaLlegada, tasaServicio, canales, poblacion, desvi
             Wq = Lq / tasaLlegada;
             W = Wq + (1 / tasaServicio);
             Pw = tasaLlegada / tasaServicio;
-            Pn = Math.pow(tasaLlegada / tasaServicio, nClientes) * P0;
+            Pn = P0 * ((tasaLlegada / tasaServicio) ** nClientes);
             break;
 
         case 3: // Tiempos de atención variables y más de 1 unidad de servicio
-            const desviacionEstandarC3 = 1.2; 
-            const E_S = 1 / tasaServicio; 
-            const ES2 = E_S ** 2 + desviacionEstandarC3 ** 2; 
-
-            let sumatoriaC3 = 0;
-            for (let k = 0; k < canales; k++) {
-                sumatoriaC3 += (1 / factorial(k)) * ((tasaLlegada / tasaServicio) ** k);
+            const c = canales;
+            const cv2 = (desviacionEstandar * tasaServicio) ** 2; 
+            const operacion = tasaLlegada / (c * tasaServicio);
+            let sum = 0;
+            for (let n = 0; n < c; n++) {
+                sum += (c * operacion) ** n / factorial(n);
             }
-            const rhoC3 = tasaLlegada / (canales * tasaServicio);
-            P0 = 1 / (sumatoriaC3 + (1 / factorial(canales)) * ((tasaLlegada / tasaServicio) ** canales) * (1 / (1 - rhoC3)));
-            Lq = (P0 * ((tasaLlegada / tasaServicio) ** canales) * tasaLlegada * ES2) / (factorial(canales - 1) * (canales * tasaServicio - tasaLlegada) ** 2);
-            L = Lq + (tasaLlegada / tasaServicio);
+            P0 = 1 / (sum + (c * operacion) ** c / (factorial(c) * (1 - operacion)));
+            const Pc = ((c * operacion) ** c / factorial(c)) * P0 / (1 - operacion);
+            Lq = Pc * operacion * (1 + cv2) / (2 * (1 - operacion));
+            L = Lq + c * operacion;
             Wq = Lq / tasaLlegada;
-            W = Wq + (1 / tasaServicio);
-            Pw = (P0 * (tasaLlegada / tasaServicio) ** canales) / factorial(canales) * (1 / (1 - rhoC3));
-            if (nClientes <= poblacion) {
-                Pn = (Math.pow(tasaLlegada / tasaServicio, nClientes) / factorial(nClientes)) * P0;
+            W = Wq + 1 / tasaServicio;
+            Pw = Pc; 
+            if (nClientes <= c) {
+                Pn = ((c * operacion) ** nClientes / factorial(nClientes)) * P0;
             } else {
-                Pn = (Math.pow(tasaLlegada / tasaServicio, nClientes) / (factorial(canales) * Math.pow(canales, nClientes - canales))) * P0;
+                Pn = ((c * operacion) ** c / factorial(c)) * (rho ** (nClientes - c)) * P0;
             }
+
+
+
             break;
+
 
         case 4: // Tiempos de atención uniformes y 1 unidad de servicio y población finita
             P0 = 1 / (factorial(poblacion) / factorial(poblacion - 0)) * Math.pow((tasaLlegada / tasaServicio), 0);
@@ -344,11 +353,11 @@ function calcularResultados(tasaLlegada, tasaServicio, canales, poblacion, desvi
 
 function factorial(k) {
     if (k === 0) {
-        return 1; 
+        return 1;
     }
     let result = 1;
     for (let i = 1; i <= k; i++) {
-        result *= i; 
+        result *= i;
     }
     return result;
 }
