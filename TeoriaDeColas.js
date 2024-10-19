@@ -142,6 +142,7 @@ function regresarMenu() {
 }
 
 
+
 document.getElementById('btnCalcular').addEventListener('click', function () {
     const tasaLlegada = document.getElementById('tasaLlegada');
     const tasaServicio = document.getElementById('tasaServicio');
@@ -149,14 +150,22 @@ document.getElementById('btnCalcular').addEventListener('click', function () {
     const poblacion = document.getElementById('poblacion');
     const desviacionEstandar = document.getElementById('desviacion');
     const nClientes = document.getElementById('clientesCantidad');
+    const mensajeEstabilidad = document.getElementById('mensajeEstabilidad');
+    const btnAceptar = document.getElementById('btnAceptar'); // Botón aceptar
 
     let valid = true;
+    mensajeEstabilidad.style.display = 'none';
+
+    btnAceptar.addEventListener('click', function () {
+        mensajeEstabilidad.style.display = 'none';
+    });
 
     if (selectedItem === 0 || selectedItem === 2) {
         if (!tasaLlegada.value) {
             tasaLlegada.style.border = "1px solid red";
             valid = false;
         }
+
         if (!tasaServicio.value) {
             tasaServicio.style.border = "1px solid red";
             valid = false;
@@ -217,17 +226,24 @@ document.getElementById('btnCalcular').addEventListener('click', function () {
         }
     }
     if (valid) {
-        const resultados = calcularResultados(tasaLlegada.value, tasaServicio.value, canales.value, poblacion.value, desviacionEstandar.value, nClientes.value);
+        if (!tasaServicio.value || tasaLlegada.value >= tasaServicio.value) {
+            mensajeEstabilidad.style.display = 'flex';
+            valid = false;
+        } else {
+            tasaServicio.title = "";
+            const resultados = calcularResultados(tasaLlegada.value, tasaServicio.value, canales.value, poblacion.value, desviacionEstandar.value, nClientes.value);
 
-        document.getElementById('P0').innerText = resultados.P0.toFixed(2);
-        document.getElementById('Lq').innerText = resultados.Lq.toFixed(2);
-        document.getElementById('L').innerText = resultados.L.toFixed(2);
-        document.getElementById('Wq').innerText = resultados.Wq.toFixed(2);
-        document.getElementById('W').innerText = resultados.W.toFixed(2);
-        document.getElementById('Pw').innerText = resultados.Pw.toFixed(2);
-        document.getElementById('Pn').innerText = resultados.Pn.toFixed(2);
+            document.getElementById('P0').innerText = resultados.P0.toFixed(2);
+            document.getElementById('Lq').innerText = resultados.Lq.toFixed(2);
+            document.getElementById('L').innerText = resultados.L.toFixed(2);
+            document.getElementById('Wq').innerText = resultados.Wq.toFixed(2);
+            document.getElementById('W').innerText = resultados.W.toFixed(2);
+            document.getElementById('Pw').innerText = resultados.Pw.toFixed(2);
+            document.getElementById('Pn').innerText = resultados.Pn.toFixed(2);
 
-        mostrarResultados();
+            mostrarResultados();
+        }
+
     }
 });
 
@@ -311,7 +327,7 @@ function calcularResultados(tasaLlegada, tasaServicio, canales, poblacion, desvi
 
         case 3: // Tiempos de atención variables y más de 1 unidad de servicio
             const c = canales;
-            const cv2 = (desviacionEstandar * tasaServicio) ** 2; 
+            const cv2 = (desviacionEstandar * tasaServicio) ** 2;
             const operacion = tasaLlegada / (c * tasaServicio);
             let sum = 0;
             for (let n = 0; n < c; n++) {
@@ -323,7 +339,7 @@ function calcularResultados(tasaLlegada, tasaServicio, canales, poblacion, desvi
             L = Lq + c * operacion;
             Wq = Lq / tasaLlegada;
             W = Wq + 1 / tasaServicio;
-            Pw = Pc; 
+            Pw = Pc;
             if (nClientes <= c) {
                 Pn = ((c * operacion) ** nClientes / factorial(nClientes)) * P0;
             } else {
