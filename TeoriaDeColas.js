@@ -240,7 +240,7 @@ document.getElementById('btnCalcular').addEventListener('click', function () {
         }
     }
     if (valid) {
-        if (!tasaServicio.value || tasaLlegada.value >= tasaServicio.value && selectedItem ===0) {
+        if ((!tasaServicio.value || tasaLlegada.value >= tasaServicio.value) && selectedItem !== 4) {
             mensajeEstabilidad.style.display = 'flex';
             valid = false;
         } else {
